@@ -1,0 +1,43 @@
+<% @response["result"].each do | congressman | %>
+	<div class="row">
+		<div class="col-md-2">
+			<% 
+			fantasy_name = congressmen_pic(congressman["name"].gsub(",",""), congressman["images"][0]["url"])
+			%>
+			<%= image_tag('congressman/'+fantasy_name+'.jpg', class: "img-circle img-responsive") %>
+		</div>
+		<div class="col-md-10">
+			<p>
+				Nombre: <%= congressman["name"] %>
+			</p>
+			
+			<p>
+				Edad: <%= age( congressman["birth_date"].to_date ) %>
+			</p>
+
+			<p>
+				Representa:
+				<ul>
+					<li>Distrito: <%= congressman['represent'][0]["district"] %></li>
+					<li>Comunas: <%= congressman['represent'][0]["comunas"] %></li>
+					<li>Región: <%= congressman['represent'][0]["region"] %></li>
+				</ul>
+			</p>
+
+			<ul class="list-inline">
+				<% congressman['links'].each do | sn | %>
+					<%
+					icon = 'fa-globe' 
+					case sn["note"].downcase
+	                	when 'twitter'
+	                  		icon = 'fa-twitter'
+	                	when 'facebook'
+	                  		icon = 'fa-facebook'
+                  	end
+					%>
+					<li><i class="fa <%= icon %>"></i></li>
+				<% end %>
+			</ul>
+		</div>
+	</div>	
+<% end %>
